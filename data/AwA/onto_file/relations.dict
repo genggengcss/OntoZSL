@@ -1,0 +1,11 @@
+0	canMoveBy
+1	hasBodySize
+2	hasTeeth
+3	eatFood
+4	hasBodyPart
+5	hasColour
+6	hasBehavior
+7	subClassOf
+8	actRole
+9	hasHabitat
+10	hasTexture

@@ -11,11 +11,10 @@ def loadArgums():
     parser.add_argument('--Workers', default=2, help='number of data loading workers')
     parser.add_argument('--DATASET', default='ImageNet', help='for imagenet')
 
-    parser.add_argument('--ProposedSplit', action='store_true', default=False, help='the class split doesnot follow standard split')
     parser.add_argument('--SeenFeaFile', default='Res101_Features/SS/ILSVRC2012_train', help='the seen samples for training model')
     parser.add_argument('--SeenTestFeaFile', default='Res101_Features/SS/ILSVRC2012_val', help='the seen samples for testing model')
     parser.add_argument('--UnseenFeaFile', default='Res101_Features/SS/ILSVRC2011', help='')
-    parser.add_argument('--SplitFile', default='split.mat', help='')
+    parser.add_argument('--SplitFile', default='', help='')
 
     parser.add_argument('--SemEmbed', default='g2v', help='the type of class embedding to input')
     # parser.add_argument('--SemFile', default='k2v-60000-distmult-g-100.mat', help='the file to store class embedding')
@@ -34,9 +33,10 @@ def loadArgums():
     parser.add_argument('--SemSize', type=int, default=100, help='size of semantic features')
     parser.add_argument('--NoiseSize', type=int, default=100, help='size of semantic features')
     parser.add_argument('--FeaSize', default=2048, help='size of visual features')
-    parser.add_argument('--SubSet', default='ImNet_A', help='the folder to store class file')
 
+    parser.add_argument('--SubSet', default='ImNet_A', help='the folder to store class file')
     parser.add_argument('--ExpName', default='Expri_DATA/KGE_GAN/Exp_A', help='the folder to store class embedding file')
+
 
     parser.add_argument('--Unseen_NSample', type=int, help='extract the subset of unseen samples, for testing model')
     parser.add_argument('--PerClassAcc', action='store_true', default=False, help='testing the accuracy of each class')
@@ -90,27 +90,30 @@ def loadArgums():
 
     args = parser.parse_args()
 
-    if args.ProposedSplit:
-        args.SeenFeaFile = 'Res101_Features/PS/Seen_train'
-        args.SeenTestFeaFile = 'Res101_Features/PS/Seen_val'
-        args.UnseenFeaFile = 'Res101_Features/PS/Unseen'
-    else:
+    if args.DATASET == 'ImageNet':
+        args.SplitFile = 'split.mat'
         args.SeenFeaFile = 'Res101_Features/SS/ILSVRC2012_train'
         args.SeenTestFeaFile = 'Res101_Features/SS/ILSVRC2012_val'
         args.UnseenFeaFile = 'Res101_Features/SS/ILSVRC2011'
 
+        if args.SemEmbed == 'w2v':
+            args.SemEmbed = 'w2v'
+            args.SemFile = 'w2v.mat'
+            args.SemSize = 500
+            args.NoiseSize = 500
+        else:
+            args.SemFile = os.path.join(args.ExpName, args.SemFile)
 
-    if args.SemEmbed == 'w2v':
-        args.SemEmbed = 'w2v'
-        args.SemFile = 'w2v.mat'
-        args.SemSize = 500
-        args.NoiseSize = 500
     else:
-        args.SemFile = os.path.join(args.ExpName, args.SemFile)
+        args.FeaFile = 'res101.mat'
+        args.SplitFile = 'binaryAtt_splits.mat'
+        if args.SemEmbed == 'k2v':
+            args.SemFile = os.path.join(args.ExpName, args.SemFile)
+            args.SemSize = 100
+            args.NoiseSize = 100
+
 
     if args.ManualSeed is None:
         args.ManualSeed = random.randint(1, 10000)
 
     print("Random Seed: ", args.ManualSeed)
-
-    return args

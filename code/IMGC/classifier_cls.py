@@ -2,20 +2,15 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 import torch.optim as optim
-import numpy as np
 import sys
 
 
 
-import itertools
-import os
-
-
 import numpy as np
 
 
-sys.path.append('../')
-from GAN import util
+sys.path.append('../../')
+from code.IMGC import util
 
 
 # classifier in testing stage, is trained with generated unseen features
@@ -59,10 +54,6 @@ class CLASSIFIER:
         self.epoch = epoch
 
         if self.cuda:
-            # self.model = self.model.to("cuda:1")
-            # self.criterion = self.criterion.to("cuda:1")
-            # self.input = self.input.to("cuda:1")
-            # self.label = self.label.to("cuda:1")
             self.model.cuda()
             self.criterion.cuda()
             self.input = self.input.cuda()
@@ -379,21 +370,6 @@ class CLASSIFIER:
 
 
         return acc_per_class.mean(dim=0, keepdim=True)
-        # for i in range(nclass):
-        #     idxs = (test_label == i).nonzero().squeeze()
-        #     if torch.sum(idxs).float() != 0:
-        #         hits = torch.FloatTensor(top).fill_(0)
-        #         for idx in idxs:
-        #             for j in range(len(top)):
-        #                 current_top = top[j]
-        #                 for sort_id in range(current_top):
-        #                     if test_label[idx] == predicted_label[idx][sort_id]:
-        #                         hits[j] = hits[j] + 1
-        #                         break
-        #         acc_per_class[i] = hits/torch.sum(idx).float()
-        #
-        #
-        # return acc_per_class.mean(dim=0, keepdim=True)
 
     # get the accuracy of each class
     # def compute_every_class_acc

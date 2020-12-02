@@ -14,3 +14,21 @@ Code and Data for the paper:
 
 #### KGC
 
+You can skip this step if you just want to use the AZSL model we trained.
+
+### Dataset Preparation
+
+#### Pre-trained Word Embeddings
+
+You need to download pretrained [Glove](http://nlp.stanford.edu/data/glove.6B.zip) word embedding dictionary, uncompress it and put all files to the folder `'data/glove'`.
+
+
+#### AwA
+Download public data splits and features for [AwA](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put **AWA2** folder to our folder `'data/AwA/'`.
+
+
+#### AwA
+Download public data splits and features for [AwA](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put **AWA2** folder to our folder `'data/AwA/'`.
+
+
+#### ImageNet (ImNet-A, ImNet-O

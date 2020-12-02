@@ -4,8 +4,8 @@ from torch.autograd import Variable
 import torch.optim as optim
 import numpy as np
 import sys
-sys.path.append('../')
-from GAN import util
+sys.path.append('../../')
+from code.IMGC import util
 
 from sklearn.preprocessing import MinMaxScaler
 import sys
