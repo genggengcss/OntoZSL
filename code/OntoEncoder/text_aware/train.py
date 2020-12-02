@@ -10,6 +10,22 @@ import argparse
 sys.path.append('../../..')
 import code.OntoEncoder.text_aware.util as u
 
+def readTxt(file_name):
+    class_list = list()
+    wnids = open(file_name, 'rU')
+    try:
+        for line in wnids:
+            line = line[:-1]
+            class_list.append(line)
+    finally:
+        wnids.close()
+    print(len(class_list))
+    return class_list
+
+def load_class():
+    seen = readTxt(seen_file)
+    unseen = readTxt(unseen_file)
+    return seen, unseen
 
 train_wnid = ["n02071294", "n02363005", "n02110341", "n02123394", "n02106662", "n02123597", "n02445715", "n01889520", "n02129604", "n02398521", "n02128385", "n02493793", "n02503517", "n02480855", "n02403003", "n02481823", "n02342885", "n02118333", "n02355227", "n02324045", "n02114100", "n02085620", "n02441942", "n02444819", "n02410702", "n02391049", "n02510455", "n02395406", "n02129165", "n02134084", "n02106030", "n02403454", "n02430045", "n02330245", "n02065726", "n02419796", "n02132580", "n02391994", "n02508021", "n02432983"]
 test_wnid = ["n02411705", "n02068974", "n02139199", "n02076196", "n02064816", "n02331046", "n02374451", "n02081571", "n02439033", "n02127482"]
@@ -23,7 +39,8 @@ names = train_name + test_name
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--datadir', default='../../data', help='')
-parser.add_argument('--dataset', default='AwA', help='')
+# parser.add_argument('--dataset', default='AwA', help='')
+parser.add_argument('--dataset', default='ImageNet/ImNet_A', help='')
 
 parser.add_argument('--rel_str_embed', default=100, type=int, help='relation structural embeddings size')
 parser.add_argument('--ent_str_embed', default=100, type=int, help='entity structural embeddings size')
@@ -364,24 +381,54 @@ with tf.Session(config=sess_config) as sess:
             print("mapped rela_matrix shape %s" % (str(feats.shape)))
 
             # save to .mat file
+            if param.dataset == 'AwA':
 
-            matcontent = scio.loadmat(os.path.join(DATASET_DIR, 'att_splits.mat'))
-            all_names = matcontent['allclasses_names'].squeeze().tolist()
+                matcontent = scio.loadmat(os.path.join(DATASET_DIR, 'att_splits.mat'))
+                all_names = matcontent['allclasses_names'].squeeze().tolist()
 
-            embed_size = feats.shape[1]
-            o2v = np.zeros((len(all_names), embed_size), dtype=np.float)
-            for i in range(len(all_names)):
-                name = all_names[i][0]
-                wnid = wnids[names.index(name)]
-                o2v[i] = feats[entities.index(wnid)]
+                embed_size = feats.shape[1]
+                o2v = np.zeros((len(all_names), embed_size), dtype=np.float)
+                for i in range(len(all_names)):
+                    name = all_names[i][0]
+                    wnid = wnids[names.index(name)]
+                    o2v[i] = feats[entities.index(wnid)]
 
-            # save wnids together
-            save_name = 'o2v-55000-text' + str((epoch + 1)) + '.mat'
-            save_dir = os.path.join(DATASET_DIR, 'onto_file', 'embeddings')
-            if not os.path.exists(save_dir):
-                os.mkdir(save_dir)
-            n2v_file = os.path.join(save_dir, save_name)
-            scio.savemat(n2v_file, {'o2v': o2v})
+                # save wnids together
+                save_name = 'o2v-55000-text' + str((epoch + 1)) + '.mat'
+                save_dir = os.path.join(DATASET_DIR, 'onto_file', 'embeddings')
+                if not os.path.exists(save_dir):
+                    os.mkdir(save_dir)
+                o2v_file = os.path.join(save_dir, save_name)
+                scio.savemat(o2v_file, {'o2v': o2v})
+
+            else:
+                seen_file = os.path.join(DATASET_DIR, 'seen.txt')
+                unseen_file = os.path.join(DATASET_DIR, 'unseen.txt')
+                seen, unseen = load_class()
+                classes = seen + unseen
+                
+                matcontent = scio.loadmat(os.path.join(param.datadir, 'ImageNet', 'w2v.mat'))
+                wnids = matcontent['wnids'].squeeze().tolist()
+                wnids = wnids[:2549]
+                embed_size = feats.shape[1]
+                o2v = np.zeros((len(wnids), embed_size), dtype=np.float)
+                for i, wnid in enumerate(wnids):
+                    wnid = wnid[0]
+                    if wnid in classes:
+                        o2v[i] = feats[entities.index(wnid)]
+                    else:
+                        continue
+                wnids_cell = np.empty((len(wnids), 1), dtype=np.object)
+                for i in range(len(wnids)):
+                    wnids_cell[i][0] = np.array(wnids[i])
+
+                save_name = 'o2v-45000-text' + str((epoch + 1)) + '.mat'
+                save_dir = os.path.join(DATASET_DIR, 'onto_file', 'embeddings')
+                if not os.path.exists(save_dir):
+                    os.mkdir(save_dir)
+                o2v_file = os.path.join(save_dir, save_name)
+                scio.savemat(o2v_file, {'o2v': o2v, 'wnids': wnids_cell})
+
 
 
             # mapping both structural and multimodal embeddings
@@ -423,7 +470,7 @@ with tf.Session(config=sess_config) as sess:
             #     os.mkdir(save_dir)
             # np.savez(os.path.join(save_dir, save_name), relaM=feats)
 
-    saver.save(sess, param.model_current_weights_file)
+    # saver.save(sess, param.model_current_weights_file)
 
 
 

@@ -190,8 +190,14 @@ def load_domain_range(triples_file):
 
 if __name__ == "__main__":
 
-    dataset = 'AwA'
     datadir = '../../data'
+
+    # dataset = 'AwA'
+    dataset = 'ImageNet/ImNet_A'
+
+    WORD_VEC_LEN = 300
+    word_vectors = get_glove_dict('../../data/glove')
+    get_vector = glove_google
 
     DATASET_DIR = os.path.join(datadir, dataset)
     DATA_DIR = os.path.join(datadir, dataset, 'onto_file')
@@ -206,11 +212,6 @@ if __name__ == "__main__":
     entities = loadDict(entity_file)
     entities_names = loadDict(entity_text_file)
 
-
-
-    WORD_VEC_LEN = 300
-    word_vectors = get_glove_dict('../../data/glove')
-    get_vector = glove_google
 
 
     ent2doc = dict()
@@ -241,11 +242,32 @@ if __name__ == "__main__":
                 ent2doc[entity_text] = 'massive herbivorous mammals having tusks and a long trunk'
             elif entity_text == 'musteline_mammal':
                 ent2doc[entity_text] = 'weasel badger otter mink marten polecat wolverine'
+            elif 'upperpart' in entity_text:
+                ent2doc[entity_text] = entity_text.replace('upperpart', 'upper part')
+            elif entity_text == 'hymenopterous_insect':
+                ent2doc[entity_text] = 'hymenopteran insect'
+            elif entity_text == 'smalleye_hammerhead':
+                ent2doc[entity_text] = 'small eye hammerhead'
+            elif entity_text == 'elasmobranch':
+                ent2doc[entity_text] = 'sharks rays skates chimeras'
+            elif entity_text == 'muishond':
+                ent2doc[entity_text] = 'southern african weasel'
+            elif entity_text == 'andrena':
+                ent2doc[entity_text] = 'mining bee'
+            elif entity_text == 'breadstuff':
+                ent2doc[entity_text] = 'bread stuff'
+            elif entity_text == 'madrilene':
+                ent2doc[entity_text] = 'a tomato-flavored consomme'
+            elif entity_text == 'nameko':
+                ent2doc[entity_text] = 'viscid mushroom'
+            elif entity_text == 'blewits':
+                ent2doc[entity_text] = 'clitocybe nuda'
+            elif entity_text == 'nutriment':
+                ent2doc[entity_text] = 'nutrition'
+            elif entity_text == 'imagenet':
+                ent2doc[entity_text] = 'top'
             else:
                 ent2doc[entity_text] = entity_text
-
-
-
 
 
     entities2vec = generate_text_embedding(ent2doc)

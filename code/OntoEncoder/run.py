@@ -36,7 +36,9 @@ def parse_args(args=None):
     parser.add_argument('--evaluate_train', action='store_true', help='Evaluate on training data', default=True)
 
     parser.add_argument('--datadir', type=str, default='../../data')
-    parser.add_argument('--dataset', type=str, default='AwA')
+    # parser.add_argument('--dataset', type=str, default='AwA')
+    parser.add_argument('--dataset', type=str, default='ImageNet/ImNet_A')
+
 
     parser.add_argument('-save', '--save_path', type=str)
 

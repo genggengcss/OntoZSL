@@ -19,6 +19,7 @@ test_name = ["sheep", "dolphin", "bat", "seal", "blue+whale", "rat", "horse", "w
 
 
 
+
 def readTxt(file_name):
     class_list = list()
     wnids = open(file_name, 'rU')
@@ -52,23 +53,16 @@ def loadDict(file_name):
     return entities
 
 
-def save_embed(filename):
+def save_embed_awa(filename, wnids, names):
 
     # load embeddings
     embeds = np.load(filename)
-
-
     # save to .mat file
     matcontent = scio.loadmat(os.path.join(DATASET_DIR, 'att_splits.mat'))
     all_names = matcontent['allclasses_names'].squeeze().tolist()
 
-
-
     embed_size = embeds.shape[1]
     o2v = np.zeros((len(all_names), embed_size), dtype=np.float)
-
-
-
     for i in range(len(all_names)):
         name = all_names[i][0]
         wnid = wnids[names.index(name)]
@@ -79,16 +73,43 @@ def save_embed(filename):
     o2v_file = os.path.join(DATA_DIR, save_file)
     scio.savemat(o2v_file, {'o2v': o2v})
 
+def save_embed(filename, classes):
+
+    # load embeddings
+    embeds = np.load(filename)
+    # save to .mat file
+    matcontent = scio.loadmat(os.path.join(datadir, 'ImageNet', 'w2v.mat'))
+    wnids = matcontent['wnids'].squeeze().tolist()
+    wnids = wnids[:2549]
+    embed_size = embeds.shape[1]
+    o2v = np.zeros((len(wnids), embed_size), dtype=np.float)
+
+    print(o2v.shape)
+    for i, wnid in enumerate(wnids):
+        wnid = wnid[0]
+        if wnid in classes:
+            o2v[i] = embeds[entities.index(wnid)]
+        else:
+            continue
+    # save wnids together
+    wnids_cell = np.empty((len(wnids), 1), dtype=np.object)
+    for i in range(len(wnids)):
+        wnids_cell[i][0] = np.array(wnids[i])
+
+    o2v_file = os.path.join(DATA_DIR, save_file)
+    scio.savemat(o2v_file, {'o2v': o2v, 'wnids': wnids_cell})
 
 
-wnids = train_wnid + test_wnid
-names = train_name + test_name
+
 
 if __name__ == '__main__':
 
-    dataset = 'AwA'
-
     datadir = '../../data'
+
+    # dataset = 'AwA'
+    dataset = 'ImageNet/ImNet_A'
+
+
 
     DATASET_DIR = os.path.join(datadir, dataset)
     DATA_DIR = os.path.join(datadir, dataset, 'onto_file')
@@ -105,7 +126,18 @@ if __name__ == '__main__':
 
     save_file = 'o2v-55000.mat'
 
-    save_embed(embed_file)
+    if dataset == 'AwA':
+        wnids = train_wnid + test_wnid
+        names = train_name + test_name
+        save_embed_awa(embed_file, wnids, names)
+
+    else:
+        seen_file = os.path.join(DATASET_DIR, 'seen.txt')
+        unseen_file = os.path.join(DATASET_DIR, 'unseen.txt')
+        seen, unseen = load_class()
+        classes = seen + unseen
+
+        save_embed(embed_file, classes)
 
 
 

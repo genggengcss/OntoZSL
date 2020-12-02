@@ -1,11 +1,30 @@
+### Running Command
 
 
-### Dataset Preparation
-#### Images of Unseen Class
+#### for AwA
 
-**AwA**: Download [AwA](http://cvml.ist.ac.at/AwA2/AwA2-data.zip) (13GB!) and uncompress it to the folder `'data/images/'`. 
-Note that we rename the awa class to its wordnet ID for conveniently training and testing.   
+**in Standard ZSL setting:**
 ```
-python data/process_awa.py
+python gan_imgc.py --DATASET AwA --ManualSeed 9182 --BatchSize 64 --LR 0.00001 --SemFile o2v-55000-text120.mat --SynNum 300
+```
+**in Generalized ZSL setting:**
+```
+python gan_imgc.py --DATASET AwA --ManualSeed 9182 --BatchSize 64 --LR 0.00001 --SemFile o2v-55000-text120.mat --GZSL --SynNum 1800
 ```
 
+#### for ImNet-A
+
+**in Standard ZSL Setting:**
+```
+python gan_imgc.py --DATASET ImageNet/ImNet_A --ManualSeed 9416 --BatchSize 4096 --LR 0.0001 --SemFile o2v-45000-text120.mat
+```
+
+**in Generalized ZSL setting:**
+```
+python gan_imgc.py --DATASET ImageNet/ImNet_A --ManualSeed 9416 --BatchSize 4096 --LR 0.0001 --SemFile o2v-45000-text120.mat --GZSL
+```
+
+#### for ImNet-O:
+```
+python gan_imgc.py --DATASET ImageNet/ImNet_O --ManualSeed 9416 --BatchSize 4096 --LR 0.0001 --SemFile o2v-45000-text130.mat
+```

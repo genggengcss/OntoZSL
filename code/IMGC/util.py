@@ -42,7 +42,9 @@ class Logger(object):
 class DATA_LOADER(object):
     def __init__(self, args):
 
-        if args.DATASET == 'ImageNet':
+        if args.DATASET == 'AwA':
+            self.read_dataset(args)
+        else:
             self.read_imagenet(args)
 
         self.index_in_epoch = 0
@@ -98,12 +100,11 @@ class DATA_LOADER(object):
 
     def read_imagenet(self, args):
         # split.mat : wnids, words
-        matcontent = scio.loadmat(os.path.join(args.DATADIR, args.DATASET, args.SplitFile))
+        matcontent = scio.loadmat(os.path.join(args.DATADIR, 'ImageNet', args.SplitFile))
         wnids = matcontent['allwnids'].squeeze().tolist()
         words = matcontent['allwords'].squeeze()[:2549]
-        seen_index = self.ID2Index(wnids, os.path.join(args.DATADIR, args.DATASET, args.SubSet, 'seen.txt'))
-        unseen_index = self.ID2Index(wnids, os.path.join(args.DATADIR, args.DATASET, args.SubSet, 'unseen.txt'))
-        # print(seen_index)
+        seen_index = self.ID2Index(wnids, os.path.join(args.DATADIR, args.DATASET, 'seen.txt'))
+        unseen_index = self.ID2Index(wnids, os.path.join(args.DATADIR, args.DATASET, 'unseen.txt'))
 
         # read seen features
         seen_features, seen_labels = self.readFeatures(args, args.SeenFeaFile, seen_index, 'seen')
@@ -141,18 +142,16 @@ class DATA_LOADER(object):
 
         if args.SemEmbed == 'w2v':
             # w2v.mat : word embedding
-            matcontent = scio.loadmat(os.path.join(args.DATADIR, args.DATASET, args.SemFile))
+            matcontent = scio.loadmat(os.path.join(args.DATADIR, 'ImageNet', args.SemFile))
             w2v = matcontent['w2v'][:2549]  # nodes of 1k+2hops
             print("semantic embedding shape:", w2v.shape)
             self.semantic = torch.from_numpy(w2v).float()
         else:
-            # g2v.mat: graph node embedding
-            # k2v.mat: kg embedding
             # o2v.mat: ontology embedding
             matcontent = scio.loadmat(os.path.join(args.DATADIR, args.DATASET, args.SemFile))
-            n2v = matcontent['k2v']
-            print("semantic embedding shape:", n2v.shape)
-            self.semantic = torch.from_numpy(n2v).float()
+            o2v = matcontent['o2v']
+            print("semantic embedding shape:", o2v.shape)
+            self.semantic = torch.from_numpy(o2v).float()
 
 
 
@@ -185,6 +184,69 @@ class DATA_LOADER(object):
         self.test_cls_num = self.ntest_class
 
 
+    def read_dataset(self, args):
+        # load resnet features
+        matcontent = scio.loadmat(os.path.join(args.DATADIR, args.DATASET, args.FeaFile))
+        feature = matcontent['features'].T
+        label = matcontent['labels'].astype(int).squeeze() - 1
+
+        # load split.mat
+        matcontent = scio.loadmat(os.path.join(args.DATADIR, args.DATASET, args.SplitFile))
+        # numpy array index starts from 0, matlab starts from 1
+        trainval_loc = matcontent['trainval_loc'].squeeze() - 1
+        # train_loc = matcontent['train_loc'].squeeze() - 1
+        # val_unseen_loc = matcontent['val_loc'].squeeze() - 1
+        test_seen_loc = matcontent['test_seen_loc'].squeeze() - 1
+        test_unseen_loc = matcontent['test_unseen_loc'].squeeze() - 1
+
+        if args.SemEmbed == 'o2v':
+            matcontent = scio.loadmat(os.path.join(args.DATADIR, args.DATASET, args.SemFile))
+            o2v = matcontent['o2v']
+            print("semantic embedding shape:", o2v.shape)
+            self.semantic = torch.from_numpy(o2v).float()
+        else:
+            self.semantic = torch.from_numpy(matcontent['att'].T).float()
+
+        if args.PreProcess:
+            scaler = preprocessing.MinMaxScaler()
+
+            # _train_feature = scaler.fit_transform(feature[trainval_loc])
+            # _test_seen_feature = scaler.transform(feature[test_seen_loc])
+            # _test_unseen_feature = scaler.transform(feature[test_unseen_loc])
+
+            _train_feature = scaler.fit_transform(feature[trainval_loc])
+            _test_seen_feature = scaler.transform(feature[test_seen_loc])
+            _test_unseen_feature = scaler.transform(feature[test_unseen_loc])
+
+            self.train_feature = torch.from_numpy(_train_feature).float()
+            mx = self.train_feature.max()
+            self.train_feature.mul_(1 / mx)
+            self.train_label = torch.from_numpy(label[trainval_loc]).long()
+            # self.train_label = torch.from_numpy(label[test_unseen_loc]).long()
+
+            self.test_unseen_feature = torch.from_numpy(_test_unseen_feature).float()
+            self.test_unseen_feature.mul_(1 / mx)
+            self.test_unseen_label = torch.from_numpy(label[test_unseen_loc]).long()
+            # self.test_unseen_label = torch.from_numpy(label[trainval_loc]).long()
+
+            self.test_seen_feature = torch.from_numpy(_test_seen_feature).float()
+            self.test_seen_feature.mul_(1 / mx)
+            self.test_seen_label = torch.from_numpy(label[test_seen_loc]).long()
+
+
+
+        self.seenclasses = torch.from_numpy(np.unique(self.train_label.numpy()))
+        self.unseenclasses = torch.from_numpy(np.unique(self.test_unseen_label.numpy()))
+        self.ntrain = self.train_feature.size()[0]
+        self.ntrain_class = self.seenclasses.size(0)
+        self.ntest_class = self.unseenclasses.size(0)
+        self.train_class = self.seenclasses.clone()
+        self.allclasses = torch.arange(0, self.ntrain_class + self.ntest_class).long()
+        self.train_mapped_label = map_label(self.train_label, self.seenclasses)
+        self.train_att = self.semantic[self.seenclasses].numpy()
+        self.test_att = self.semantic[self.unseenclasses].numpy()
+        self.train_cls_num = self.ntrain_class
+        self.test_cls_num = self.ntest_class
 
     def next_batch_one_class(self, batch_size):
         if self.index_in_epoch == self.ntrain_class:

@@ -31,4 +31,8 @@ Download public data splits and features for [AwA](http://datasets.d2.mpi-inf.mp
 Download public data splits and features for [AwA](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put **AWA2** folder to our folder `'data/AwA/'`.
 
 
-#### ImageNet (ImNet-A, ImNet-O
+#### ImageNet (ImNet-A, ImNet-O)
+
+Original Feature file is too large (>100GB!), we will release the subsets we used by Google Drive if the paper is accepted.
+
+The above downloaded AwA file also contains the dataset splits of ImNet-A/O, you can put `split.mat` and `w2v.mat` to our folder 'data/ImageNet/'.

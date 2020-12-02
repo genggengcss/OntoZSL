@@ -4,9 +4,10 @@ import codecs
 
 if __name__ == "__main__":
 
-
-    dataset = 'AwA'
     datadir = '../../data'
+
+    # dataset = 'AwA'
+    dataset = 'ImageNet/ImNet_A'
 
     DATASET_DIR = os.path.join(datadir, dataset)
     DATA_DIR = os.path.join(datadir, dataset, 'onto_file')

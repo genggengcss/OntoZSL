@@ -19,11 +19,22 @@ python run.py --dataset AwA
 
 then you need to run `process_structure_embed.py`, `process_text_embed.py` and `process_triple.py` in the folder text
 ```
-python text_aware/train.py --rel_str_embed 100 --ent_str_embed 100 --ent_text_embed 300
+python text_aware/train.py --dataset AwA --rel_str_embed 100 --ent_str_embed 100 --ent_text_embed 300
 ```
 
 
-#### for Wikidata-ZS
+
+
+#### for encoding ImNet_A/O's ontological schema
 ```
-python gan_kgc.py --dataset Wiki --embed_model DistMult/TransE --embed_dim 50 --ep_dim 100 --fc1_dim 200 --pretrain_batch_size 128 --pretrain_subepoch 30 --pretrain_times 7000 --D_batch_size 64 --G_batch_size 64 --gan_batch_rela 8  --pretrain_feature_extractor --load_trained_embed
+python run.py --dataset ImageNet/ImNet_A
+```
+```
+python run.py --dataset ImageNet/ImNet_O
+```
+
+
+then you need to run `process_structure_embed.py`, `process_text_embed.py` and `process_triple.py` in the folder text
+```
+python text_aware/train.py --dataset ImageNet/ImNet_A --rel_str_embed 100 --ent_str_embed 100 --ent_text_embed 300
 ```

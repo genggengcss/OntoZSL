@@ -290,8 +290,12 @@ for epoch in range(args.Epoch):
     # if epoch >= 18:
     if args.GZSL:
         syn_feature, syn_label = generate_syn_feature(netG, data.unseenclasses, data.semantic, args.SynNum)
-        train_X = torch.cat((data.train_feature1, syn_feature), 0)
-        train_Y = torch.cat((data.train_label1, syn_label), 0)
+        if args.DATASET == 'AwA':
+            train_X = torch.cat((data.train_feature, syn_feature), 0)
+            train_Y = torch.cat((data.train_label, syn_label), 0)
+        else:
+            train_X = torch.cat((data.train_feature1, syn_feature), 0)
+            train_Y = torch.cat((data.train_label1, syn_label), 0)
         classes = torch.cat((data.seenclasses, data.unseenclasses), 0)
         nclass = classes.size(0)
         cls = classifier_cls.CLASSIFIER(args, train_X, util.map_label(train_Y, classes), data, nclass, args.Cuda,
