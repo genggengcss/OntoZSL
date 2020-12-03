@@ -48,4 +48,4 @@ The first thing you need to do is to train the text-aware ontology encoder using
 
 Secondly, with well-trained ontology embedding, you can take it as the input of generative model, see the codes in the folders `code/IMGC` and `code/KGC`. The running commands are listed in the corresponding README.md files.
 
-*You can skip the first step if you just want to use the ontology embedding we trained, the files are in the corresponding directories*.
+*Note: you can skip the first step if you just want to use the ontology embedding we learned, the files are provided in the corresponding directories*.
