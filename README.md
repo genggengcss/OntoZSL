@@ -27,12 +27,12 @@ You need to download pretrained [Glove](http://nlp.stanford.edu/data/glove.6B.zi
 Download public data splits and features for [AwA](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put **AWA2** folder to our folder `'data/AwA/'`.
 
 
-#### AwA
-Download public data splits and features for [AwA](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put **AWA2** folder to our folder `'data/AwA/'`.
-
-
 #### ImageNet (ImNet-A, ImNet-O)
 
 Original Feature file is too large (>100GB!), we will release the subsets we used in paper by Google Drive if the paper is accepted.
 
 The above downloaded AwA file also contains the dataset splits of ImNet-A/O, you can put `split.mat` and `w2v.mat` to our folder 'data/ImageNet/'.
+
+
+#### NELL-ZS & Wikidata-ZS
+You can download the datasets from [here](https://github.com/Panda0406/Zero-shot-knowledge-graph-relational-learning) and put them to the corresponding data folder.

@@ -12,13 +12,14 @@ if __name__ == "__main__":
     DATASET_DIR = os.path.join(datadir, dataset)
     DATA_DIR = os.path.join(datadir, dataset, 'onto_file')
 
-    triples_file = os.path.join(DATA_DIR, 'all_triples_names.txt')
-    save_file = os.path.join(DATA_DIR, 'all_triples_names_htr.txt')
+    if dataset == 'NELL' or dataset == 'Wiki':
+        triples_file = os.path.join(DATA_DIR, 'all_triples.txt')
+        save_file = os.path.join(DATA_DIR, 'all_triples_htr.txt')
+    else:
+        triples_file = os.path.join(DATA_DIR, 'all_triples_names.txt')
+        save_file = os.path.join(DATA_DIR, 'all_triples_names_htr.txt')
 
     wr_fp = open(save_file, 'w')
-
-
-
     text_file = codecs.open(triples_file, "r", "utf-8")
     lines = text_file.readlines()
     for line in lines:

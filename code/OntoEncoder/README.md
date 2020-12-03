@@ -13,15 +13,24 @@ python data/process_awa.py
 
 #### for encoding AwA's ontological schema
 ```
-python run.py --dataset AwA
+python run.py --dataset AwA --hidden_dim 100
 ```
 
 
 then you need to run `process_structure_embed.py`, `process_text_embed.py` and `process_triple.py` in the folder text
 ```
-python text_aware/train.py --dataset AwA --rel_str_embed 100 --ent_str_embed 100 --ent_text_embed 300
+python text_aware/train.py --dataset AwA --rel_str_embed 100 --ent_str_embed 100 --mapping_size 100
 ```
 
+
+#### for encoding NELL's ontological schema
+```
+python run.py --dataset NELL --hidden_dim 300
+```
+then you need to run `process_structure_embed.py`, `process_text_embed.py` and `process_triple.py` in the folder text
+```
+python text_aware/train_kgc.py --dataset NELL --rel_str_embed 300 --ent_str_embed 300 --mapping_size 300
+```
 
 
 
@@ -36,5 +45,5 @@ python run.py --dataset ImageNet/ImNet_O
 
 then you need to run `process_structure_embed.py`, `process_text_embed.py` and `process_triple.py` in the folder text
 ```
-python text_aware/train.py --dataset ImageNet/ImNet_A --rel_str_embed 100 --ent_str_embed 100 --ent_text_embed 300
+python text_aware/train.py --dataset ImageNet/ImNet_A --rel_str_embed 100 --ent_str_embed 100  --mapping_size 100
 ```

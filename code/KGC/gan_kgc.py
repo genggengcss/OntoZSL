@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import numpy as np
 import random
 import torch
@@ -10,21 +9,15 @@ from torch.autograd import Variable
 from tqdm import tqdm
 import torch.nn.init as init
 from sklearn.metrics.pairwise import cosine_similarity
-import torch.backends.cudnn as cudnn
 import sys
-
-sys.path.append('../..')
+sys.path.append('../../')
 import os
 import os.path as osp
 import json
 import shutil
-from ZSGAN.GAN.args import read_options
-from ZSGAN.GAN.data_loader import Extractor_generate, centroid_generate, train_generate_decription
-# from ZSGAN.GAN.data_loader import Extractor_generate
-
-from ZSGAN.GAN.Networks import Extractor, Generator, Discriminator
-from ZSGAN.GAN.prepare_data import NELL_text_embedding
-# from ZSGAN.GAN.modules import reset_grad, weights_init, calc_gradient_penalty
+from code.KGC.args import read_options
+from code.KGC.data_loader import Extractor_generate, centroid_generate, train_generate_decription
+from code.KGC.Networks import Extractor, Generator, Discriminator
 
 
 def calc_gradient_penalty(netD, real_data, fake_data, batchsize, centroid_matrix):
@@ -65,27 +58,10 @@ class Trainer(object):
         self.args = args
         self.data_path = self.args.datadir + self.args.dataset + '/'
 
-
-
-
         self.train_tasks = json.load(open(self.data_path + self.train_data))
-
-
-
-
-
-
         self.rel2id = json.load(open(self.data_path + 'relation2ids'))
-        # print(self.rel2id)
 
-        # Generate the relation matrix according to word embeddings and TFIDF
-        if self.generate_text_embedding:
-            if self.dataset == "NELL":
-                NELL_text_embedding(self.args)
-            else:
-                raise AttributeError("wrong dataset name!")
-
-        rela_matrix = np.load(self.data_path + self.semantic_of_rel)['relaM']
+        rela_matrix = np.load(os.path.join(self.data_path, 'onto_file', 'embeddings', self.semantic_of_rel))['relaM']
         print('##LOADING RELATION MATRIX##')
         self.rela_matrix = rela_matrix.astype('float32')
         print(rela_matrix.shape)
@@ -170,21 +146,10 @@ class Trainer(object):
         symbol_id = {}
 
         print('##LOADING PRE-TRAINED EMBEDDING')
-        if self.embed_model in ['DistMult', 'TransE', 'ComplEx', 'RESCAL']:
+        if self.embed_model in ['DistMult', 'TransE']:
             embed_all = np.load(self.data_path + self.embed_model + '_embed.npz')
             ent_embed = embed_all['eM']
             rel_embed = embed_all['rM']
-
-            if self.embed_model == 'ComplEx':
-                # normalize the complex embeddings
-                ent_mean = np.mean(ent_embed, axis=1, keepdims=True)
-                ent_std = np.std(ent_embed, axis=1, keepdims=True)
-                rel_mean = np.mean(rel_embed, axis=1, keepdims=True)
-                rel_std = np.std(rel_embed, axis=1, keepdims=True)
-                eps = 1e-3
-                ent_embed = (ent_embed - ent_mean) / (ent_std + eps)
-                rel_embed = (rel_embed - rel_mean) / (rel_std + eps)
-
             print('    ent_embed shape is {}, the number of entity is {}'.format(ent_embed.shape,
                                                                                  len(self.ent2id.keys())))
             print('    rel_embed shape is {}, the number of relation is {}'.format(rel_embed.shape,
@@ -234,8 +199,6 @@ class Trainer(object):
             lines = f.readlines()
             for line in tqdm(lines):
                 e1, rel, e2 = line.rstrip().split()
-                # print(e1, rel, e2)
-                # rel_list.append(rel)
                 self.e1_rele2[e1].append((self.symbol2id[rel], self.symbol2id[e2]))
                 # self.e1_rele2[e2].append((self.symbol2id[rel+'_inv'], self.symbol2id[e1]))
                 self.e1_rele2[e2].append((self.symbol2id[rel], self.symbol2id[e1]))
@@ -558,15 +521,7 @@ class Trainer(object):
 
         # logging.info('EVALUATING ON %s DATA' % mode.upper())
         print('##EVALUATING ON %s DATA' % mode.upper())
-        # if mode == 'dev':
-        #     test_tasks = json.load(open(self.data_path + 'dev_tasks.json'))
-        # elif mode == 'test':
-        #     test_tasks = json.load(open(self.data_path + 'test_tasks.json'))
-        #
-        # else:
-        #     raise AttributeError("Wrong dataset type!")
-
-        test_candidates = json.load(open(self.data_path + 'datasplit/' + mode + "_candidates.json"))
+        test_candidates = json.load(open(self.data_path + "/test_candidates.json"))
 
         hits10 = []
         hits5 = []
@@ -671,12 +626,6 @@ class Trainer(object):
 
         # return np.mean(hits10), np.mean(hits5), np.mean(mrr)
 
-    # def test_(self):
-    #     self.load()
-    #     # logging.info('Pre-trained model loaded')
-    #     print('Pre-trained model loaded')
-    #     # self.eval(mode='dev', meta=self.meta)
-    #     self.eval(mode='test', meta=self.meta)
 
 
 if __name__ == '__main__':

@@ -37,7 +37,8 @@ def parse_args(args=None):
 
     parser.add_argument('--datadir', type=str, default='../../data')
     # parser.add_argument('--dataset', type=str, default='AwA')
-    parser.add_argument('--dataset', type=str, default='ImageNet/ImNet_A')
+    # parser.add_argument('--dataset', type=str, default='ImageNet/ImNet_A')
+    parser.add_argument('--dataset', type=str, default='NELL')
 
 
     parser.add_argument('-save', '--save_path', type=str)
@@ -59,11 +60,9 @@ def parse_args(args=None):
 
     parser.add_argument('-lr', '--learning_rate', default=0.00005, type=float)
     parser.add_argument('-cpu', '--cpu_num', default=10, type=int)
-    # parser.add_argument('-init', '--init_checkpoint', default=None, type=str)
-    # parser.add_argument('-save', '--save_path', default='/home/gyx/KGE/code/models/TransE_FB15k-237', type=str)
-    # parser.add_argument('-save', '--save_path', type=str)
 
-    parser.add_argument('--max_steps', default=60000, type=int)
+
+    parser.add_argument('--max_steps', default=80000, type=int)
     parser.add_argument('--warm_up_steps', default=None, type=int)
 
     parser.add_argument('--save_steps', default=1000, type=int)

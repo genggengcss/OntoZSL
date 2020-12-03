@@ -48,9 +48,12 @@ if __name__ == '__main__':
     DATA_DIR = os.path.join(datadir, dataset, 'onto_file')
 
 
-
-    entity_file = os.path.join(DATA_DIR, 'entities_names.dict')
-    relation_file = os.path.join(DATA_DIR, 'relations.dict')
+    if dataset == 'NELL' or dataset == 'Wiki':
+        entity_file = os.path.join(DATA_DIR, 'entities.dict')
+        relation_file = os.path.join(DATA_DIR, 'relations.dict')
+    else:
+        entity_file = os.path.join(DATA_DIR, 'entities_names.dict')
+        relation_file = os.path.join(DATA_DIR, 'relations.dict')
 
 
     # load entity dict

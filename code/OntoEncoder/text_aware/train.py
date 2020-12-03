@@ -111,11 +111,11 @@ print("#training data", len(training_data))   # num: 285850
 
 # random.seed(10)
 # valid_data = random.sample(training_data, 100)
-valid_data = training_data
-valid_data = [(t[5], t[7], t[6]) for t in valid_data]
-# valid_data = valid_data[:100]
-
-print("valid_data",len(valid_data))
+# valid_data = training_data
+# valid_data = [(t[5], t[7], t[6]) for t in valid_data]
+# # valid_data = valid_data[:100]
+#
+# print("valid_data",len(valid_data))
 
 def max_norm_regulizer(threshold,axes=1,name="max_norm",collection="max_norm"):
     def max_norm(weights):
@@ -431,44 +431,6 @@ with tf.Session(config=sess_config) as sess:
 
 
 
-            # mapping both structural and multimodal embeddings
-            # w_dim = 300
-            # all_feats_txt = np.zeros((len(rel2id.keys()), w_dim), dtype=np.float)
-            # all_feats_img = np.zeros((len(rel2id.keys()), w_dim), dtype=np.float)
-            # for i, rel in id2rel.items():
-            #     # load embeddings
-            #     if rel in entity_embeddings_img and rel in entity_embeddings_txt:
-            #         rel_embed_txt = entity_embeddings_txt[rel]
-            #         rel_embed_img = entity_embeddings_img[rel]
-            #         # all_feats_list.append(rel_embed_txt)
-            #         all_feats_txt[i] = rel_embed_txt
-            #         all_feats_img[i] = rel_embed_img
-            #     else:
-            #         continue
-            # feats_maps_txt = sess.run(
-            #     [h_pos_txt_mapped],
-            #     feed_dict={
-            #         h_pos_txt_input: all_feats_txt,
-            #         keep_prob: 1 - param.dropout_ratio
-            #     })
-            # feats_maps_img = sess.run(
-            #     [h_pos_img_mapped],
-            #     feed_dict={
-            #         h_pos_img_input: all_feats_img,
-            #         keep_prob: 1 - param.dropout_ratio
-            #     })
-            #
-            # # print(feats_maps)
-            # feats = np.hstack((feats_maps_txt[0], feats_maps_img[0]))
-            # print("mapped rela_matrix shape %s" % (str(feats.shape)))
-            # save_name = 'rela_matrix_multimodal_' + str((epoch + 1)) + '.npz'
-            # # np.savez(os.path.join('/home/gyx/ZSL_KGR/DATA/' + 'NELL' + '/Expri_DATA/multimodal_keywords', save_name),
-            # #          relaM=feats)
-            #
-            # save_dir = '/home/gyx/ZSL_KGR/DATA/' + param.DATASET + '/Expri_DATA/multimodal_con'
-            # if not os.path.exists(save_dir):
-            #     os.mkdir(save_dir)
-            # np.savez(os.path.join(save_dir, save_name), relaM=feats)
 
     # saver.save(sess, param.model_current_weights_file)
 

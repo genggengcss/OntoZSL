@@ -17,7 +17,7 @@ import time
 
 import sys
 sys.path.append('../../')
-from code.IMGC import config_args
+from code.IMGC import args
 from code.IMGC import model
 from code.IMGC import classifier_cls
 from code.IMGC import classifier_pretrain

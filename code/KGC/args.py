@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 import argparse
 import random
+import os
 def read_options():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--datadir", default="/home/gyx/ZSL_KGR/DATA/", type=str)
+    parser.add_argument("--datadir", default="../../data", type=str)
     parser.add_argument("--dataset", default="NELL", type=str)
     parser.add_argument("--embed_model", default='DistMult', type=str)
     parser.add_argument("--RansomSplit", action='store_true', default=True)
@@ -53,26 +53,21 @@ def read_options():
     parser.add_argument("--no_meta", action='store_true')
 
     # switch
-    parser.add_argument("--generate_text_embedding", action='store_true')
+    # parser.add_argument("--generate_text_embedding", action='store_true')
     parser.add_argument("--pretrain_feature_extractor", action='store_true')
     parser.add_argument("--load_trained_embed", action='store_true', help='load well trained kg embeddings, such as DistMult')
     parser.add_argument("--trained_embed_path", default='')
 
 
-    # parser.add_argument("--semantic_of_rel", default='Expri_DATA/rela_matrix_transe_55000_0919.npz')
 
-    parser.add_argument("--semantic_of_rel", default='Expri_DATA/rela_matrix_distmult_15000.npz')
+    # for NELL
+    # parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_140.npz')
+    # for Wiki
+    # parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_140.npz')
 
-    # parser.add_argument("--semantic_of_rel", default='Expri_DATA/rela_matrix.npz')
-    # parser.add_argument("--semantic_of_rel", default='Expri_DATA/multimodal/multimodal_text_nei_tfidf_con/rela_matrix_multimodal_140.npz')
-    # parser.add_argument("--semantic_of_rel", default='Expri_DATA/rela_matrix_transe_generalizations_50000.npz')
-
-
-    # parser.add_argument("--semantic_of_rel", default='Expri_DATA/rela_matrix_transe_52000.npz')
     parser.add_argument("--input_dim", default=600, type=int)
     parser.add_argument("--train_data", default='')
     parser.add_argument("--splitname", default='')
-
 
     parser.add_argument("--seed", type=int, default=6096)
     parser.add_argument('--device', type=int, default=1, help='device to use for iterate data, -1 means cpu [default: 0]')
@@ -82,14 +77,13 @@ def read_options():
 
     if args.RansomSplit:
         # args.splitname = 'four'
-        args.save_path = args.datadir + args.dataset + '/Expri_DATA/models_train_split/'
-        args.trained_embed_path = 'Embed_used_train_split/'
-        args.train_data = 'datasplit/' + args.splitname+'_train_tasks.json'
-
+        args.save_path = os.path.join(args.datadir, args.dataset, 'expri_data', 'models_train_split')
+        args.trained_embed_path = os.path.join('expri_data', 'Embed_used_split')
+        args.train_data = os.path.join('datasplit', args.splitname+'_train_tasks.json')
     else:
-        args.save_path = args.datadir + args.dataset + '/Expri_DATA/models_train_1004/'
-        args.trained_embed_path = 'Embed_used_train_1004/'
-        args.train_data = 'ori_train_tasks.json'
+        args.save_path = os.path.join(args.datadir, args.dataset, 'expri_data', 'models_train')
+        args.trained_embed_path = os.path.join('expri_data', 'Embed_used')
+        args.train_data = os.path.join('datasplit', 'ori_train_tasks.json')
 
 
 
