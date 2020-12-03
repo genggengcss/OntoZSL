@@ -13,6 +13,11 @@ Code and Data for the paper:
 |**ImNet-O**|35/10/25|222/115/8| 
 
 #### KGC
+|Dataset| # Relations (Total/Train/Val/Test) | # Ontology Schema (Triples/Concepts/Properties) |
+|:------:|:------:|:------:|
+|**NELL-ZS**|139/10/32| 3,055/1,186/4|
+|**Wikidata-ZS**|469/20/48|10,399/3,491/8|
+
 
 You can skip this step if you just want to use the AZSL model we trained.
 
