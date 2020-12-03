@@ -4,7 +4,7 @@
 ### For NELL-ZS
 
 #### With Pre-trained KG Embedding: TransE
-**original split**
+***original split**
 ```
 python gan_kgc.py --dataset NELL --embed_model TransE --splitname ori  --embed_dim 100 --ep_dim 200 --fc1_dim 400 --pretrain_batch_size 64 --pretrain_subepoch 20 --pretrain_times 16000 --D_batch_size 256 --G_batch_size 256 --gan_batch_rela 2 --pretrain_feature_extractor --load_trained_embed --semantic_of_rel rela_matrix_onto_140.npz
 ```
@@ -36,4 +36,4 @@ python gan_kgc.py --dataset Wiki --embed_model TransE --splitname ori --embed_di
 python gan_kgc.py --dataset Wiki --embed_model TransE --splitname one --embed_dim 50 --ep_dim 100 --fc1_dim 200 --pretrain_batch_size 128 --pretrain_subepoch 30 --pretrain_times 7000 --D_batch_size 64 --G_batch_size 64 --gan_batch_rela 8  --pretrain_feature_extractor --load_trained_embed --semantic_of_rel rela_matrix_onto_130.npz
 ```
 
-*Other commands also follow similar settings*
+*Other commands also follow similar settings.*
