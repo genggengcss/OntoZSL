@@ -44,6 +44,8 @@ You can download the two datasets from [here](https://github.com/Panda0406/Zero-
 
 
 ### OntoZSL Training
-The first thing you need to do is to train the text-aware ontology encoder using the code in the folder `code/OntoEncoder`, you can read more details at [code/OntoEncoder/README.md](/X_ZSL/README.md).
+The first thing you need to do is to train the text-aware ontology encoder using the code in the folder `code/OntoEncoder`, you can get more details at [code/OntoEncoder/README.md](/code/OntoEncoder/README.md).
+
 Secondly, with well-trained ontology embedding, you can take it as the input of generative model, see the codes in the folders `code/IMGC` and `code/KGC`. The running commands are listed in the corresponding README.md files.
+
 *You can skip the first step if you just want to use the ontology embedding we trained, the files are in the corresponding directories*.
