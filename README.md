@@ -1,7 +1,6 @@
 # OntoZSL
 
-Code and Data for the paper:  
-"OntoZSL: Ontology-enhanced Zero-shot Learning".  
+Code and Data for the paper: "OntoZSL: Ontology-enhanced Zero-shot Learning".
 
 ### Dataset Description
 
@@ -19,25 +18,32 @@ Code and Data for the paper:
 |**Wikidata-ZS**|469/20/48|10,399/3,491/8|
 
 
-You can skip this step if you just want to use the AZSL model we trained.
+### Requirements
+- `python 3.5`
+- `PyTorch >= 1.0.0`
 
 ### Dataset Preparation
 
 #### Pre-trained Word Embeddings
-
-You need to download pretrained [Glove](http://nlp.stanford.edu/data/glove.6B.zip) word embedding dictionary, uncompress it and put all files to the folder `'data/glove'`.
+You need to download pretrained [Glove](http://nlp.stanford.edu/data/glove.6B.zip) word embedding dictionary, uncompress it and put all files to the folder `data/glove`.
 
 
 #### AwA
-Download public data splits and features for [AwA](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put **AWA2** folder to our folder `'data/AwA/'`.
+Download public image features and dataset split for [AwA](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put the files in **AWA2** folder to our folder `data/AwA/`.
 
 
 #### ImageNet (ImNet-A, ImNet-O)
 
-Original Feature file is too large (>100GB!), we will release the subsets we used in paper by Google Drive if the paper is accepted.
+The original ImageNet feature file is too large (>100GB!), and the subsets we used in the paper are not small to put on Github, so we will release them by Google Drive later if the paper is accepted.
 
-The above downloaded AwA file also contains the dataset splits of ImNet-A/O, you can put `split.mat` and `w2v.mat` to our folder 'data/ImageNet/'.
+The above downloaded AwA file also contains the dataset splits of ImNet-A/O, you can put `split.mat` and `w2v.mat` in the **ImageNet** folder to our folder `data/ImageNet/`.
 
 
 #### NELL-ZS & Wikidata-ZS
-You can download the datasets from [here](https://github.com/Panda0406/Zero-shot-knowledge-graph-relational-learning) and put them to the corresponding data folder.
+You can download the two datasets from [here](https://github.com/Panda0406/Zero-shot-knowledge-graph-relational-learning) and put them to the corresponding data folder.
+
+
+### OntoZSL Training
+The first thing you need to do is to train the text-aware ontology encoder using the code in the folder `code/OntoEncoder`, you can read more details at [code/OntoEncoder/README.md](/X_ZSL/README.md).
+Secondly, with well-trained ontology embedding, you can take it as the input of generative model, see the codes in the folders `code/IMGC` and `code/KGC`. The running commands are listed in the corresponding README.md files.
+*You can skip the first step if you just want to use the ontology embedding we trained, the files are in the corresponding directories*.
