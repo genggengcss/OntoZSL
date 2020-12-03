@@ -40,7 +40,7 @@ The above downloaded AwA file also contains the dataset splits of ImNet-A/O, you
 
 
 #### NELL-ZS & Wikidata-ZS
-You can download the two datasets from [here](https://github.com/Panda0406/Zero-shot-knowledge-graph-relational-learning) and put them to the corresponding data folder.
+You can download these two datasets from [here](https://github.com/Panda0406/Zero-shot-knowledge-graph-relational-learning) and put them to the corresponding data folder.
 
 
 ### OntoZSL Training
