@@ -1,7 +1,7 @@
 
-### Running Command
+## Running Command
 
-#### Default Ontology Encoder
+### Default Ontology Encoder
 Running the script `pretrain_struc.py` to pretrain the structural representation of Ontological Schema.
 
 **For AwA & ImNet_A/O**
@@ -16,7 +16,7 @@ python pretrain_struc.py --dataset NELL --hidden_dim 300
 python pretrain_struc.py --dataset Wiki --hidden_dim 300
 ```
 
-#### Text-aware Ontology Encoder
+### Text-aware Ontology Encoder
 Running the scripts in the folder `text_aware/` to learn text-aware ontology embedding.
 
 - Preprocess the structural/textual representation of ontology entities
