@@ -1,6 +1,5 @@
 ## Running Command
 
-
 ### For NELL-ZS
 
 #### With Pre-trained KG Embedding: TransE
