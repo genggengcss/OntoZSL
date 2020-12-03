@@ -24,7 +24,7 @@ Code and Data for the paper: "OntoZSL: Ontology-enhanced Zero-shot Learning".
 
 ### Dataset Preparation
 
-#### Pre-trained Word Embeddings
+#### Word Embeddings
 You need to download pretrained [Glove](http://nlp.stanford.edu/data/glove.6B.zip) word embedding dictionary, uncompress it and put all files to the folder `data/glove/`.
 
 
