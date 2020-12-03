@@ -63,7 +63,7 @@ def read_options():
     # for NELL
     # parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_140.npz')
     # for Wiki
-    # parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_140.npz')
+    # parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_130.npz')
 
     parser.add_argument("--input_dim", default=600, type=int)
     parser.add_argument("--train_data", default='')
