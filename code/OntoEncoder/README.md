@@ -1,20 +1,35 @@
 
+### Running Command
 
-### Dataset Preparation
-#### Images of Unseen Class
+#### Default Ontology Encoder
+Running the script `pretrain_struc.py` to pretrain the structural representation of Ontological Schema.
 
-**AwA**: Download [AwA](http://cvml.ist.ac.at/AwA2/AwA2-data.zip) (13GB!) and uncompress it to the folder `'data/images/'`.
-Note that we rename the awa class to its wordnet ID for conveniently training and testing.
+**For AwA & ImNet_A/O**
 ```
-python data/process_awa.py
+python pretrain_struc.py --dataset AwA/ImNet_A/ImNet_O --hidden_dim 100
 ```
+**For NELL-ZS & Wikidata-ZS**
+```
+python pretrain_struc.py --dataset NELL/Wiki --hidden_dim 300
+```
+
+#### Text-aware Ontology Encoder
+Running the scripts in the folder `text_aware` to learn text-aware ontology embedding.
+
+- preprocess the structural/textual representation of ontology entities
+```
+python process_structure_embed.py
+python process_text_embed.py/process_text_embed_kgc.py
+python process_triple.py
+```
+
+
+
 
 
 
 #### for encoding AwA's ontological schema
-```
-python run.py --dataset AwA --hidden_dim 100
-```
+
 
 
 then you need to run `process_structure_embed.py`, `process_text_embed.py` and `process_triple.py` in the folder text
