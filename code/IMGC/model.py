@@ -241,6 +241,7 @@ class MLP_G(nn.Module):
         return h
 
 
+
 class MLP_2048_1024_Dropout_G(nn.Module):
     def __init__(self, opt):
         super(MLP_2048_1024_Dropout_G, self).__init__()

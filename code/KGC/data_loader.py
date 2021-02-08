@@ -111,7 +111,7 @@ def train_generate_decription(dataset, train_tasks, batch_size, symbol2id, ent2i
     print('##LOADING TRAINING DATA')
     # train_tasks = json.load(open(dataset + 'train_tasks.json'))
     print('##LOADING CANDIDATES')
-    rel2candidates = json.load(open(dataset + 'rel2candidates_all.json'))
+    rel2candidates = json.load(open(dataset + '/rel2candidates_all.json'))
     # task_pool = list(train_tasks.keys())
     task_pool = sorted(train_tasks.keys())  # ensure the readout is the same
 

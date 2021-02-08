@@ -30,7 +30,7 @@ class CLASSIFIER:
         self.test_unseen_label = data_loader.test_unseen_label
         self.seenclasses = data_loader.seenclasses
         self.unseenclasses = data_loader.unseenclasses
-        self.unseennames = data_loader.unseennames
+        # self.unseennames = data_loader.unseennames
         self.batch_size = _batch_size
         self.nepoch = _nepoch
         self.nclass = _nclass

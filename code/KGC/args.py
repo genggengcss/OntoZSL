@@ -5,7 +5,10 @@ def read_options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--datadir", default="../../data", type=str)
     parser.add_argument("--dataset", default="NELL", type=str)
-    parser.add_argument("--embed_model", default='DistMult', type=str)
+
+    # parser.add_argument("--embed_model", default='DistMult', type=str)
+    parser.add_argument("--embed_model", default='TransE', type=str)
+
     parser.add_argument("--RansomSplit", action='store_true', default=True)
 
     # embedding dimension
@@ -53,7 +56,6 @@ def read_options():
     parser.add_argument("--no_meta", action='store_true')
 
     # switch
-    # parser.add_argument("--generate_text_embedding", action='store_true')
     parser.add_argument("--pretrain_feature_extractor", action='store_true')
     parser.add_argument("--load_trained_embed", action='store_true', help='load well trained kg embeddings, such as DistMult')
     parser.add_argument("--trained_embed_path", default='')
@@ -61,16 +63,17 @@ def read_options():
 
 
     # for NELL
-    # parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_140.npz')
+    parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_nell.npz')
+
     # for Wiki
-    # parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_130.npz')
+    # parser.add_argument("--semantic_of_rel", default='rela_matrix_onto_wiki.npz')
 
     parser.add_argument("--input_dim", default=600, type=int)
     parser.add_argument("--train_data", default='')
-    parser.add_argument("--splitname", default='')
+    parser.add_argument("--splitname", default='ori')
 
     parser.add_argument("--seed", type=int, default=6096)
-    parser.add_argument('--device', type=int, default=1, help='device to use for iterate data, -1 means cpu [default: 0]')
+    parser.add_argument('--device', type=int, default=2, help='device to use for iterate data, -1 means cpu [default: 0]')
 
     args = parser.parse_args()
 
@@ -79,6 +82,7 @@ def read_options():
         # args.splitname = 'four'
         args.save_path = os.path.join(args.datadir, args.dataset, 'expri_data', 'models_train_split')
         args.trained_embed_path = os.path.join('expri_data', 'Embed_used_split')
+
         args.train_data = os.path.join('datasplit', args.splitname+'_train_tasks.json')
     else:
         args.save_path = os.path.join(args.datadir, args.dataset, 'expri_data', 'models_train')
@@ -96,7 +100,7 @@ def read_options():
     # print("----------------------------")
 
     print("------HYPERPARAMETERS-------")
-    print('training contains validation set: ' + str(args.TrainVal))
+    # print('training contains validation set: ' + str(args.TrainVal))
     print('relation embedding: ' + str(args.semantic_of_rel))
     print('input rel embedding dimension: ' + str(args.input_dim))
     print('data split: ' + str(args.splitname))

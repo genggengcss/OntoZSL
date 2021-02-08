@@ -42,7 +42,7 @@ class Logger(object):
 class DATA_LOADER(object):
     def __init__(self, args):
 
-        if args.DATASET == 'AwA':
+        if args.DATASET == 'AwA2':
             self.read_dataset(args)
         else:
             self.read_imagenet(args)
@@ -79,7 +79,7 @@ class DATA_LOADER(object):
         fea_set = list()
         label_set = list()
         for idx in index_set:
-            file = os.path.join(args.DATADIR, args.DATASET, folder, str(idx)+'.mat')
+            file = os.path.join(args.DATADIR, 'ImageNet', folder, str(idx)+'.mat')
             feature = np.array(scio.loadmat(file)['features'])
             if type == 'seen':
                 if nsample and feature.shape[0] > nsample:
@@ -149,7 +149,8 @@ class DATA_LOADER(object):
         else:
             # o2v.mat: ontology embedding
             matcontent = scio.loadmat(os.path.join(args.DATADIR, args.DATASET, args.SemFile))
-            o2v = matcontent['o2v']
+            # o2v = matcontent['o2v']
+            o2v = matcontent['k2v']
             print("semantic embedding shape:", o2v.shape)
             self.semantic = torch.from_numpy(o2v).float()
 
@@ -201,7 +202,8 @@ class DATA_LOADER(object):
 
         if args.SemEmbed == 'o2v':
             matcontent = scio.loadmat(os.path.join(args.DATADIR, args.DATASET, args.SemFile))
-            o2v = matcontent['o2v']
+            # o2v = matcontent['o2v']
+            o2v = matcontent['k2v']
             print("semantic embedding shape:", o2v.shape)
             self.semantic = torch.from_numpy(o2v).float()
         else:

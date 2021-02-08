@@ -8,12 +8,12 @@ def loadArgums():
     Data loading
     '''
     parser.add_argument('--DATADIR', default='../../data', help='path to dataset')
+
     parser.add_argument('--Workers', default=2, help='number of data loading workers')
 
-    # parser.add_argument('--DATASET', default='AwA', help='for awa')
+    parser.add_argument('--DATASET', default='AwA2', help='for awa')
+    # parser.add_argument('--DATASET', default='ImageNet/ImNet_A', help='for imagenet')
 
-
-    parser.add_argument('--DATASET', default='ImageNet/ImNet_A', help='for imagenet')
     parser.add_argument('--SeenFeaFile', default='', help='imagenet seen samples for training model')
     parser.add_argument('--SeenTestFeaFile', default='', help='imagenet seen samples for testing model')
     parser.add_argument('--UnseenFeaFile', default='', help='')
@@ -23,13 +23,14 @@ def loadArgums():
     parser.add_argument('--SemEmbed', default='o2v', help='the type of class embedding to input')
 
     # AwA
-    # parser.add_argument('--SemFile', default='o2v-55000-text120.mat', help='the file to store class embedding')
-    # ImNet-A
-    # parser.add_argument('--SemFile', default='o2v-45000-text120.mat', help='the file to store class embedding')
-    # ImNet-O
-    # parser.add_argument('--SemFile', default='o2v-45000-text130.mat', help='the file to store class embedding')
+    parser.add_argument('--SemFile', default='o2v-awa.mat', help='the file to store class embedding')
 
-    parser.add_argument('--SemSize', type=int, default=100, help='size of semantic features')
+    # ImNet-A
+    # parser.add_argument('--SemFile', default='o2v-imagenet-a.mat', help='the file to store class embedding')
+    # ImNet-O
+    # parser.add_argument('--SemFile', default='o2v-imagenet-o.mat', help='the file to store class embedding')
+
+    parser.add_argument('--SemSize', type=int, help='size of semantic features')
     parser.add_argument('--NoiseSize', type=int, default=100, help='size of semantic features')
     parser.add_argument('--FeaSize', default=2048, help='size of visual features')
 
@@ -50,7 +51,7 @@ def loadArgums():
     parser.add_argument('--Critic_Iter', default=5, help='critic iteration of discriminator, default=5, following WGAN-GP setting')
     parser.add_argument('--GP_Weight', type=float, default=10, help='gradient penalty regularizer, default=10, the completion of Lipschitz Constraint in WGAN-GP')
     parser.add_argument('--Cls_Weight', default=0.01, help='loss weight for the supervised classification loss')
-    parser.add_argument('--SynNum', default=300, help='number of features generating for each unseen class; awa_default = 300')
+    parser.add_argument('--SynNum', default=300, type=int, help='number of features generating for each unseen class; awa_default = 300')
     parser.add_argument('--SeenSynNum', default=300, help='number of features for training seen classifier when testing')
 
     '''
@@ -62,11 +63,11 @@ def loadArgums():
     parser.add_argument('--Cross_Validation', default=False, help='enable cross validation mode')
     parser.add_argument('--Cuda', default=True, help='')
     parser.add_argument('--NGPU', default=1, help='number of GPUs to use')
-    parser.add_argument('--CUDA_DEVISE', default='3', help='')
+    parser.add_argument('--CUDA_DEVISE', default='0', help='')
     parser.add_argument('--ManualSeed', default=9416, type=int, help='')  #
-    parser.add_argument('--BatchSize', default=4096, help='')
+    parser.add_argument('--BatchSize', default=4096, type=int, help='')
     parser.add_argument('--Epoch', default=100, help='')
-    parser.add_argument('--LR', default=0.0001, help='learning rate to train GAN')
+    parser.add_argument('--LR', default=0.0001, type=float, help='learning rate to train GAN')
     parser.add_argument('--Cls_LR', default=0.001, help='after generating unseen features, the learning rate for training softmax classifier')
     parser.add_argument('--Ratio', default=0.1, help='ratio of easy samples')
     parser.add_argument('--Beta', default=0.5, help='beta for adam, default=0.5')
@@ -80,12 +81,12 @@ def loadArgums():
 
     args = parser.parse_args()
 
-    if args.DATASET == 'AwA':
+    if args.DATASET == 'AwA2':
         args.FeaFile = 'res101.mat'
         args.SplitFile = 'binaryAtt_splits.mat'
         if args.SemEmbed == 'o2v':
             args.SemFile = os.path.join('onto_file', 'embeddings', args.SemFile)
-            args.SemSize = 200
+            # args.SemSize = 200
             args.NoiseSize = 100
         else:
             args.SemSize = 85
@@ -99,8 +100,8 @@ def loadArgums():
 
         if args.SemEmbed == 'o2v':
             args.SemFile = os.path.join('onto_file', 'embeddings', args.SemFile)
-            args.SemSize = 200
-            args.NoiseSize = 100
+            # args.SemSize = 200
+            # args.NoiseSize = 100
         else:
             args.SemEmbed = 'w2v'
             args.SemFile = 'w2v.mat'
@@ -112,3 +113,5 @@ def loadArgums():
         args.ManualSeed = random.randint(1, 10000)
 
     print("Random Seed: ", args.ManualSeed)
+
+    return args

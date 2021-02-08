@@ -56,10 +56,10 @@ class Trainer(object):
         super(Trainer, self).__init__()
         for k, v in vars(args).items():setattr(self, k, v)
         self.args = args
-        self.data_path = self.args.datadir + self.args.dataset + '/'
+        self.data_path = os.path.join(self.args.datadir, self.args.dataset)
 
-        self.train_tasks = json.load(open(self.data_path + self.train_data))
-        self.rel2id = json.load(open(self.data_path + 'relation2ids'))
+        self.train_tasks = json.load(open(os.path.join(self.data_path, self.train_data)))
+        self.rel2id = json.load(open(self.data_path + '/relation2ids'))
 
         rela_matrix = np.load(os.path.join(self.data_path, 'onto_file', 'embeddings', self.semantic_of_rel))['relaM']
         print('##LOADING RELATION MATRIX##')
@@ -67,14 +67,14 @@ class Trainer(object):
         print(rela_matrix.shape)
 
 
-        self.ent2id = json.load(open(self.data_path + 'entity2id'))
+        self.ent2id = json.load(open(self.data_path + '/entity2id'))
 
         print('##LOADING CANDIDATES ENTITIES##')
-        self.rel2candidates = json.load(open(self.data_path + 'rel2candidates_all.json'))
+        self.rel2candidates = json.load(open(self.data_path + '/rel2candidates_all.json'))
 
         # load answer dict
         self.e1rel_e2 = defaultdict(list)
-        self.e1rel_e2 = json.load(open(self.data_path + 'e1rel_e2_all.json'))
+        self.e1rel_e2 = json.load(open(self.data_path + '/e1rel_e2_all.json'))
 
 
         noises = Variable(torch.randn(self.test_sample, self.noise_dim)).cuda()
@@ -147,7 +147,7 @@ class Trainer(object):
 
         print('##LOADING PRE-TRAINED EMBEDDING')
         if self.embed_model in ['DistMult', 'TransE']:
-            embed_all = np.load(self.data_path + self.embed_model + '_embed.npz')
+            embed_all = np.load(os.path.join(self.data_path, self.embed_model + '_embed.npz'))
             ent_embed = embed_all['eM']
             rel_embed = embed_all['rM']
             print('    ent_embed shape is {}, the number of entity is {}'.format(ent_embed.shape,
@@ -173,16 +173,20 @@ class Trainer(object):
             symbol_id['PAD'] = i
             embeddings.append(list(np.zeros((rel_embed.shape[1],))))
             embeddings = np.array(embeddings)
-            np.savez(self.data_path + self.trained_embed_path + self.embed_model+'_'+self.splitname, embeddings)
-            json.dump(symbol_id, open(self.data_path + self.trained_embed_path + self.embed_model + '2id'+'_'+self.splitname, 'w'))
+
+
+
+            np.savez(os.path.join(self.data_path, self.trained_embed_path, self.embed_model+'_'+self.splitname), embeddings)
+
+            json.dump(symbol_id, open(os.path.join(self.data_path, self.trained_embed_path, self.embed_model + '2id'+'_'+self.splitname), 'w'))
 
             self.symbol2id = symbol_id
             self.symbol2vec = embeddings
             print(embeddings.shape)
 
     def read_embed(self):
-        symbol_id = json.load(open(self.data_path + self.trained_embed_path + self.embed_model + '2id'+'_'+self.splitname))
-        embeddings = np.load(self.data_path + self.trained_embed_path + self.embed_model+'_'+self.splitname + '.npz')['arr_0']
+        symbol_id = json.load(open(os.path.join(self.data_path, self.trained_embed_path, self.embed_model + '2id'+'_'+self.splitname)))
+        embeddings = np.load(os.path.join(self.data_path, self.trained_embed_path, self.embed_model+'_'+self.splitname+'.npz'))['arr_0']
         # print(embeddings)
         self.symbol2id = symbol_id
         self.symbol2vec = embeddings
@@ -195,7 +199,7 @@ class Trainer(object):
         self.e1_rele2 = defaultdict(list)
         self.e1_degrees = defaultdict(int)
         # rel_list = list()
-        with open(self.data_path + 'path_graph') as f:
+        with open(self.data_path + '/path_graph') as f:
             lines = f.readlines()
             for line in tqdm(lines):
                 e1, rel, e2 = line.rstrip().split()
@@ -222,21 +226,21 @@ class Trainer(object):
         return degrees
 
     def save_pretrain(self):
-        torch.save(self.Extractor.state_dict(), self.save_path + self.embed_model + '_' + self.splitname + '_Extractor')
+        torch.save(self.Extractor.state_dict(), self.save_path + '/' + self.embed_model + '_' + self.splitname + '_Extractor')
 
     def load_pretrain(self):
-        self.Extractor.load_state_dict(torch.load(self.save_path + self.embed_model + '_' + self.splitname + '_Extractor'))
+        self.Extractor.load_state_dict(torch.load(self.save_path + '/' + self.embed_model + '_' + self.splitname + '_Extractor'))
 
     def save(self, path=None):
         if not path:
             path = self.save_path
 
-        torch.save(self.Generator.state_dict(), path + self.embed_model + '_' + self.splitname + '_Generator')
-        torch.save(self.Discriminator.state_dict(), path + self.embed_model + '_' + self.splitname + '_Discriminator')
+        torch.save(self.Generator.state_dict(), path + '/' + self.embed_model + '_' + self.splitname + '_Generator')
+        torch.save(self.Discriminator.state_dict(), path + '/' + self.embed_model + '_' + self.splitname + '_Discriminator')
 
     def load(self):
-        self.Generator.load_state_dict(torch.load(self.save_path + self.embed_model + '_' + self.splitname + '_Generator'))
-        self.Discriminator.load_state_dict(torch.load(self.save_path + self.embed_model + '_' + self.splitname + '_Discriminator'))
+        self.Generator.load_state_dict(torch.load(self.save_path + '/' + self.embed_model + '_' + self.splitname + '_Generator'))
+        self.Discriminator.load_state_dict(torch.load(self.save_path + '/' + self.embed_model + '_' + self.splitname + '_Discriminator'))
 
     def get_meta(self, left, right):
         # if len(left) == 0:
@@ -494,10 +498,10 @@ class Trainer(object):
                             np.mean(D_fake_class_losses)]
                 G_screen = [np.mean(G_fake_losses), np.mean(G_class_losses), np.mean(G_real_class_losses),
                             np.mean(G_VP_losses)]
-                # print("Epoch: %d, D_loss: %.2f [%.2f, %.2f, %.2f, %.2f], G_loss: %.2f [%.2f, %.2f, %.2f, %.2f]" \
-                #       % (
-                #       epoch, np.mean(D_losses), D_screen[0], D_screen[1], D_screen[2], D_screen[3], np.mean(G_losses),
-                #       G_screen[0], G_screen[1], G_screen[2], G_screen[3]))
+                print("Epoch: %d, D_loss: %.2f [%.2f, %.2f, %.2f, %.2f], G_loss: %.2f [%.2f, %.2f, %.2f, %.2f]" \
+                      % (
+                      epoch, np.mean(D_losses), D_screen[0], D_screen[1], D_screen[2], D_screen[3], np.mean(G_losses),
+                      G_screen[0], G_screen[1], G_screen[2], G_screen[3]))
             # D_screen = [np.mean(D_real_losses), np.mean(D_real_class_losses), np.mean(D_fake_losses),
             #             np.mean(D_fake_class_losses)]
             # G_screen = [np.mean(G_fake_losses), np.mean(G_class_losses), np.mean(G_real_class_losses),
@@ -519,9 +523,10 @@ class Trainer(object):
         self.Extractor.eval()
         symbol2id = self.symbol2id
 
-        # logging.info('EVALUATING ON %s DATA' % mode.upper())
         print('##EVALUATING ON %s DATA' % mode.upper())
         test_candidates = json.load(open(self.data_path + "/test_candidates.json"))
+
+
 
         hits10 = []
         hits5 = []
@@ -610,12 +615,10 @@ class Trainer(object):
                 mrr.append(1.0 / rank)
                 mrr_.append(1.0 / rank)
 
-            # logging.critical('{} Hits10:{:.3f}, Hits5:{:.3f}, Hits1:{:.3f} MRR:{:.3f}'.format(query_, np.mean(hits10_), np.mean(hits5_), np.mean(hits1_), np.mean(mrr_)))
-            # logging.info('Number of candidates: {}, number of text examples {}'.format(len(candidates), len(hits10_)))
+            # print('Number of candidates: {}, number of text examples {}'.format(len(candidates), len(hits10_)))
             # print('{}, Hits10:{:.3f}, Hits5:{:.3f}, Hits1:{:.3f}, MRR:{:.3f}'.format(query_, np.mean(hits10_),
             #                                                                        np.mean(hits5_), np.mean(hits1_),
             #                                                                        np.mean(mrr_)))
-            # print('Number of candidates: {}, number of text examples {}'.format(len(candidates), len(hits10_)))
 
         print('############   ' + mode + ' ' + str(epoch) + '    #############')
         print('HITS10: {:.3f}'.format(np.mean(hits10)))

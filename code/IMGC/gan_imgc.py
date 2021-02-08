@@ -16,12 +16,13 @@ import time
 
 
 import sys
-sys.path.append('../../')
+sys.path.append('../..')
 from code.IMGC import args
 from code.IMGC import model
 from code.IMGC import classifier_cls
 from code.IMGC import classifier_pretrain
 from code.IMGC import util
+
 
 
 
@@ -33,11 +34,11 @@ print(GetNowTime())
 print('Begin run!!!')
 since = time.time()
 
-args = config_args.loadArgums()
+args = args.loadArgums()
 print("Params:")
 
-print('ProposedSplit:{:s}, SemEmbed:{:s}, ExpName: {:s}, SynNum={:d}, GZSL:{:s}, ManualSeed:{:d}'.format(
-        str(args.ProposedSplit), args.SemEmbed, args.ExpName, args.SynNum, str(args.GZSL), args.ManualSeed))
+print('SemEmbed:{:s}, Dataset: {:s}, SynNum={:d}, GZSL:{:s}, ManualSeed:{:d}'.format(
+        args.SemEmbed, args.DATASET, args.SynNum, str(args.GZSL), args.ManualSeed))
 print(args.SemFile)
 
 sys.stdout.flush()
