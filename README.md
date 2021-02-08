@@ -34,9 +34,7 @@ Download public image features and dataset split for [AwA](http://datasets.d2.mp
 
 #### ImageNet (ImNet-A, ImNet-O)
 
-The original ImageNet feature file is too large (>100GB!), and the subsets we used in the paper are not small to put on Github, so we will release them by Google Drive later if the paper is accepted.
-
-The above downloaded AwA file also contains the dataset splits of ImNet-A/O, you can put `split.mat` and `w2v.mat` in the **ImageNet** folder to our folder `data/ImageNet/`.
+Download the image features and the word embeddings of ImageNet classes from [here](https://drive.google.com/drive/folders/1An6nLXRRvlKSCbJoKKlqTNDvgN7PyvvW?usp=sharing) and put them to the folder `data/ImageNet/`.
 
 
 #### NELL-ZS & Wikidata-ZS
