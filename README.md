@@ -34,7 +34,7 @@ Download public image features and dataset split for [AwA](http://datasets.d2.mp
 
 #### ImageNet (ImNet-A, ImNet-O)
 
-Download the image features and the word embeddings of ImageNet classes from [here](https://drive.google.com/drive/folders/1An6nLXRRvlKSCbJoKKlqTNDvgN7PyvvW?usp=sharing) and put them to the folder `data/ImageNet/`.
+Download the image features and the word embeddings of ImageNet classes as well as their splits from [here](https://drive.google.com/drive/folders/1An6nLXRRvlKSCbJoKKlqTNDvgN7PyvvW?usp=sharing) and put them to the folder `data/ImageNet/`.
 
 
 #### NELL-ZS & Wikidata-ZS
