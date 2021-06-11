@@ -16,7 +16,7 @@ import time
 
 
 import sys
-sys.path.append('../..')
+sys.path.append('../../')
 from code.IMGC import args
 from code.IMGC import model
 from code.IMGC import classifier_cls
@@ -291,15 +291,20 @@ for epoch in range(args.Epoch):
     # if epoch >= 18:
     if args.GZSL:
         syn_feature, syn_label = generate_syn_feature(netG, data.unseenclasses, data.semantic, args.SynNum)
-        if args.DATASET == 'AwA':
+        if args.DATASET == 'AwA2':
             train_X = torch.cat((data.train_feature, syn_feature), 0)
             train_Y = torch.cat((data.train_label, syn_label), 0)
+            classes = torch.cat((data.seenclasses, data.unseenclasses), 0)
+            nclass = classes.size(0)
+            cls = classifier_cls.CLASSIFIER(args, train_X, util.map_label(train_Y, classes), data, nclass, args.Cuda,
+                                            args.Cls_LR, 0.5, 50, 2 * args.SynNum,
+                                            True)
         else:
             train_X = torch.cat((data.train_feature1, syn_feature), 0)
             train_Y = torch.cat((data.train_label1, syn_label), 0)
-        classes = torch.cat((data.seenclasses, data.unseenclasses), 0)
-        nclass = classes.size(0)
-        cls = classifier_cls.CLASSIFIER(args, train_X, util.map_label(train_Y, classes), data, nclass, args.Cuda,
+            classes = torch.cat((data.seenclasses, data.unseenclasses), 0)
+            nclass = classes.size(0)
+            cls = classifier_cls.CLASSIFIER(args, train_X, util.map_label(train_Y, classes), data, nclass, args.Cuda,
                                             args.Cls_LR, 0.5, 50, 2 * args.BatchSize,
                                             True)
 

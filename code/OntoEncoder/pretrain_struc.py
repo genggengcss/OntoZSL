@@ -15,7 +15,7 @@ import torch
 
 from torch.utils.data import DataLoader
 
-from model import KGEModel
+from code import KGEModel
 
 from dataloader import TrainDataset
 from dataloader import BidirectionalOneShotIterator

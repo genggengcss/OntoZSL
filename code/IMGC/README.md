@@ -8,7 +8,7 @@ python gan_imgc.py --DATASET AwA2 --ManualSeed 9182 --BatchSize 64 --LR 0.00001 
 ```
 - **in Generalized ZSL setting:**
 ```
-python gan_imgc.py --DATASET AwA --ManualSeed 9182 --BatchSize 64 --LR 0.00001 --SemFile o2v-awa.mat --GZSL --SynNum 1800
+python gan_imgc.py --DATASET AwA2 --ManualSeed 9182 --BatchSize 64 --LR 0.00001 --SemFile o2v-awa.mat --GZSL --SynNum 1800
 ```
 
 #### For ImNet-A

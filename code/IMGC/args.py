@@ -9,6 +9,7 @@ def loadArgums():
     '''
     parser.add_argument('--DATADIR', default='../../data', help='path to dataset')
 
+
     parser.add_argument('--Workers', default=2, help='number of data loading workers')
 
     parser.add_argument('--DATASET', default='AwA2', help='for awa')
@@ -86,7 +87,7 @@ def loadArgums():
         args.SplitFile = 'binaryAtt_splits.mat'
         if args.SemEmbed == 'o2v':
             args.SemFile = os.path.join('onto_file', 'embeddings', args.SemFile)
-            # args.SemSize = 200
+            args.SemSize = 200
             args.NoiseSize = 100
         else:
             args.SemSize = 85
@@ -100,8 +101,8 @@ def loadArgums():
 
         if args.SemEmbed == 'o2v':
             args.SemFile = os.path.join('onto_file', 'embeddings', args.SemFile)
-            # args.SemSize = 200
-            # args.NoiseSize = 100
+            args.SemSize = 200
+            args.NoiseSize = 100
         else:
             args.SemEmbed = 'w2v'
             args.SemFile = 'w2v.mat'
