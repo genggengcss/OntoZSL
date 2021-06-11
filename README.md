@@ -29,8 +29,8 @@ In this work, we propose to utilize ontology and generative adversarial network 
 You need to download pretrained [Glove](http://nlp.stanford.edu/data/glove.6B.zip) word embedding dictionary, uncompress it and put all files to the folder `data/glove/`.
 
 
-#### AwA
-Download public image features and dataset split for [AwA](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put the files in **AWA2** folder to our folder `data/AwA/`.
+#### AwA2
+Download public image features and dataset split for [AwA2](http://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip), uncompress it and put the files in **AWA2** folder to our folder `data/AwA2/`.
 
 
 #### ImageNet (ImNet-A, ImNet-O)
