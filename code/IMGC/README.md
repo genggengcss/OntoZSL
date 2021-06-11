@@ -1,6 +1,6 @@
 ## Running Command
 
-#### For AwA
+#### For AwA2
 
 - **in Standard ZSL setting:**
 ```
