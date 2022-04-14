@@ -79,7 +79,8 @@ cls_criterion = nn.NLLLoss()  # cross entropy loss
 input_fea = torch.FloatTensor(args.BatchSize, args.FeaSize)  # (64, 2048)
 input_sem = torch.FloatTensor(args.BatchSize, args.SemSize)  # (64, 500)
 noise = torch.FloatTensor(args.BatchSize, args.NoiseSize)  # (64, 500)
-one = torch.FloatTensor([1])
+# one = torch.FloatTensor([1])
+one = torch.tensor(1, dtype=torch.float)
 mone = one * -1
 input_label = torch.LongTensor(args.BatchSize)
 
