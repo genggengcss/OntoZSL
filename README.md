@@ -8,20 +8,20 @@ In this work, we propose to utilize ontology and generative adversarial network 
 #### IMGC
 |Dataset| # Classes (Total/Seen/Unseen) | # Ontology Schema (Triples/Concepts/Properties) |  
 |:------:|:------:|:------:| 
-|**AwA**|50/40/10| 1,256/180/12| 
-|**ImNet-A**|80/28/52|563/227/19|
-|**ImNet-O**|35/10/25|222/115/8| 
+|**AwA**|50 / 40 / 10| 1,256 / 180 / 12| 
+|**ImNet-A**|80 / 28 / 52|563 / 227 / 19|
+|**ImNet-O**|35 / 10 / 25|222 / 115 / 8| 
 
 #### KGC
 |Dataset| # Relations (Total/Train/Val/Test) | # Ontology Schema (Triples/Concepts/Properties) |
 |:------:|:------:|:------:|
-|**NELL-ZS**|139/10/32| 3,055/1,186/4|
-|**Wikidata-ZS**|469/20/48|10,399/3,491/8|
+|**NELL-ZS**|139 / 10 / 32| 3,055 / 1,186/4|
+|**Wikidata-ZS**|469 / 20 / 48|10,399 / 3,491/8|
 
 
 ### Requirements
 - `python 3.5`
-- `PyTorch >= 1.0.0`
+- `PyTorch >= 1.5.0`
 
 ### Dataset Preparation
 
