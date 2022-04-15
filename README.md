@@ -1,7 +1,7 @@
 # OntoZSL
 
 Code and Data for the paper: "[**OntoZSL: Ontology-enhanced Zero-shot Learning**](https://dl.acm.org/doi/10.1145/3442381.3450042)".
-Yuxia Geng, Jiaoyan Chen, Zhuo Chen, Jeff Z. Pan, Zhiquan Ye, and Huajun Chen.
+Yuxia Geng, Jiaoyan Chen, Zhuo Chen, Jeff Z. Pan, Zhiquan Ye, Huajun Chen et al.
 The Web Conference (WWW) 2021 Research Track.
 > In this work, we propose to utilize ontology and generative adversarial network to deal with the zero-shot learning problems in image classification and KG completion.
 
