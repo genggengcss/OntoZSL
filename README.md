@@ -1,7 +1,9 @@
 # OntoZSL
 
-Code and Data for the paper: "[OntoZSL: Ontology-enhanced Zero-shot Learning](https://arxiv.org/abs/2102.07339)".
-In this work, we propose to utilize ontology and generative adversarial network to deal with the zero-shot learning problems in image classification and KG completion.
+Code and Data for the paper: "[**OntoZSL: Ontology-enhanced Zero-shot Learning**](https://dl.acm.org/doi/10.1145/3442381.3450042)".
+Yuxia Geng, Jiaoyan Chen, Zhuo Chen, Jeff Z. Pan, Zhiquan Ye, and Huajun Chen.
+This paper has been accepted by WWW 2021 main conference.
+> In this work, we propose to utilize ontology and generative adversarial network to deal with the zero-shot learning problems in image classification and KG completion.
 
 ### Dataset Description
 
@@ -48,3 +50,15 @@ The first thing you need to do is to train the text-aware ontology encoder using
 Secondly, with well-trained ontology embedding, you can take it as the input of generative model, see the codes in the folders `code/IMGC` and `code/KGC`. The running commands are listed in the corresponding README.md files.
 
 *Note: you can skip the first step if you just want to use the ontology embedding we learned, the files are provided in the corresponding directories*.
+
+### How to Cite
+Please condiser citing this paper if you use the code
+```bigquery
+@inproceedings{geng2021ontozsl,
+  title={OntoZSL: Ontology-enhanced zero-shot learning},
+  author={Geng, Yuxia and Chen, Jiaoyan and Chen, Zhuo and Pan, Jeff Z and Ye, Zhiquan and Yuan, Zonggang and Jia, Yantao and Chen, Huajun},
+  booktitle={Proceedings of the Web Conference 2021},
+  pages={3325--3336},
+  year={2021}
+}
+```
