@@ -5,6 +5,9 @@ Yuxia Geng, Jiaoyan Chen, Zhuo Chen, Jeff Z. Pan, Zhiquan Ye, and Huajun Chen.
 The Web Conference (WWW) 2021 Research Track.
 > In this work, we propose to utilize ontology and generative adversarial network to deal with the zero-shot learning problems in image classification and KG completion.
 
+### Ontological Schemas
+![Ontological Schema snapshots](https://github.com/genggengcss/OntoZSL/blob/master/data/ontological_schema_snapshots.jpg)
+
 ### Dataset Description
 
 #### IMGC
