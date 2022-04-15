@@ -52,13 +52,34 @@ Secondly, with well-trained ontology embedding, you can take it as the input of 
 *Note: you can skip the first step if you just want to use the ontology embedding we learned, the files are provided in the corresponding directories*.
 
 ### How to Cite
-Please condiser citing this paper if you use the code
+If you find this code useful, please consider citing the following paper.
 ```bigquery
 @inproceedings{geng2021ontozsl,
-  title={OntoZSL: Ontology-enhanced zero-shot learning},
-  author={Geng, Yuxia and Chen, Jiaoyan and Chen, Zhuo and Pan, Jeff Z and Ye, Zhiquan and Yuan, Zonggang and Jia, Yantao and Chen, Huajun},
-  booktitle={Proceedings of the Web Conference 2021},
-  pages={3325--3336},
-  year={2021}
+  author    = {Yuxia Geng and
+               Jiaoyan Chen and
+               Zhuo Chen and
+               Jeff Z. Pan and
+               Zhiquan Ye and
+               Zonggang Yuan and
+               Yantao Jia and
+               Huajun Chen},
+  editor    = {Jure Leskovec and
+               Marko Grobelnik and
+               Marc Najork and
+               Jie Tang and
+               Leila Zia},
+  title     = {OntoZSL: Ontology-enhanced Zero-shot Learning},
+  booktitle = {{WWW} '21: The Web Conference 2021, Virtual Event / Ljubljana, Slovenia,
+               April 19-23, 2021},
+  pages     = {3325--3336},
+  publisher = {{ACM} / {IW3C2}},
+  year      = {2021},
+  url       = {https://doi.org/10.1145/3442381.3450042},
+  doi       = {10.1145/3442381.3450042},
+  timestamp = {Thu, 14 Oct 2021 10:04:23 +0200},
+  biburl    = {https://dblp.org/rec/conf/www/GengC0PYYJC21.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
+### Acknowledgement
+We refer to the code of [LisGAN](https://github.com/lijin118/LisGAN) and [ZSGAN](https://github.com/Panda0406/Zero-shot-knowledge-graph-relational-learning). Thanks for their contributions.
